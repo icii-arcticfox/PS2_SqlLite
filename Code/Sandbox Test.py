@@ -2,13 +2,8 @@ import sqlite3
 
 databaseName = "SandboxDatabase"
 
-#[SqlFunction]#@68572024
+#[SqlFunction]
 def create_database():
-#>1#(68572024):(68572024)
-    conn = sqlite3.connect(databaseName)
-    cursor = conn.cursor()
-#<1#(68572024)~%(1509969043)
-
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
@@ -16,16 +11,27 @@ def create_database():
             age INTEGER NOT NULL
         )
     ''')
-#>1#(68572024):(68572024)
-    conn.commit()
-    conn.close()
-#<1#(68572024)~%(-296304079)
 
+#[SqlFunction]
+def insert_data(name, age):
+    cursor.execute('INSERT INTO users (name, age) VALUES (?, ?)', (name, age))
+
+
+#[SqlFunction]
+def query_data():
+    cursor.execute('SELECT * FROM users')
+    users = cursor.fetchall()
+    return users
 
 
 if __name__ == "__main__":
     create_database()
 
-    #Insert data later
+    insert_data('Mia', 27)
+    insert_data('Malik', 19)
+    insert_data('Leo', 42)
 
-    #Query data later
+    users = query_data()
+    print('Users:')
+    for user in users:
+        print( user )
