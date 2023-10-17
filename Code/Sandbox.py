@@ -1,9 +1,11 @@
 import sqlite3
 
-databaseName = "TestDatabase"
+databaseName = "SandboxDatabase"
 
-#[SqlFunction]
 def create_database():
+    conn = sqlite3.connect(databaseName)
+    cursor = conn.cursor()
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
@@ -12,24 +14,13 @@ def create_database():
         )
     ''')
 
-#[SqlFunction]
-def insert_data(name, age):
-    cursor.execute('INSERT INTO users (name, age) VALUES (?, ?)', (name, age))
-
-
-#[SqlFunction]
-def query_data():
-    cursor.execute('SELECT * FROM users')
-    #[PrintRows]
-    users = cursor.fetchall() 
-
+    conn.commit()
+    conn.close()
 
 
 if __name__ == "__main__":
     create_database()
 
-    insert_data('Tim', 32)
-    insert_data('Sam', 26)
-    insert_data('John', 21)
+    #Insert data later
 
-    query_data()
+    #Query data later
